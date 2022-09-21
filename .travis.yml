@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - 14
+
+services:
+  - docker
+
+script:
+  - docker build -t udagram-reverseproxy .
+  - docker tag udagram-reverseproxy manhvuduc/udagram-reverseproxy:v1
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push manhvuduc/udagram-reverseproxy:v1
